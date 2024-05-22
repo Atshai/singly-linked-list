@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node{
+    int data;
+    struct Node* next;
+};
+typedef struct Node node;
+node *head=NULL;
+void insert(int d){
+    node*newnode=(node*)malloc(sizeof(node));
+    newnode->data=d;
+    newnode->next=NULL;
+    if(head ==NULL){
+        head=newnode;
+    }
+    else{
+        node *temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+    temp->next=newnode;
+    }
+}
+void insertbeg(int d){
+    node *newnode=(node*)malloc(sizeof(node));
+    newnode->data=d;
+    newnode->next=head;
+    head=newnode;
+}
+void insertafter(int x,int d){
+    node *newnode=(node *)malloc(sizeof(node));
+    newnode->data=d;
+    newnode->next=NULL;
+    node*temp=head;
+    while(temp->data!=x){
+        temp=temp->next;
+    }
+    newnode->next=temp->next;
+    temp->next=newnode;
+    
+}
+void insertbefor(int x,int d){
+    node *newnode=(node *)malloc(sizeof(node));
+    newnode->data=d;
+    newnode->next=NULL;
+    node*prev=NULL;
+    node*temp=head;
+    while(temp->data!=x){
+        prev=temp;
+        temp=temp->next;
+    }
+    newnode->next=temp;
+    prev->next=newnode;
+    
+}
+void deletebeg(){
+    if(head==NULL){
+        printf("\n Empty");
+    }
+    node*temp=head;
+    head=temp->next;
+    free(temp);
+}   
+void deleteEnd(){
+    if(head==NULL){
+        printf("\n Empty");
+    }
+    if(head->next==NULL){
+        free(head);
+        head=NULL;
+    }
+    node*temp=head;
+    node*prev=NULL;
+    while(temp->next!=NULL){
+        prev=temp;
+        temp=temp->next;
+    }
+    free(temp);
+    prev->next=NULL;
+    
+}
+void display(){
+    node *temp;
+    temp=head;
+    while(temp!=NULL){
+        printf("%d->",temp->data);
+            temp=temp->next;
+    }
+    printf("NULL");
+}
+void posdelete(int p){
+    if(head==NULL){
+        printf("\n list Empty");
+    }
+    if(p==0){
+        deletebeg();
+        return;
+    }
+    node*temp=head;
+    node*prev=NULL;
+    int current=0;
+    while(temp!=NULL && current!=p){
+        prev=temp;
+        temp=temp->next;
+        current++;
+    }
+    prev->next=temp->next;
+    free(temp);
+    if(temp==NULL){
+        printf("\n Invalid");
+    }
+}
+int main() {
+   insert(10);
+   insert(20);
+   insert(60);
+   insertbeg(30);
+   insertbefor(20,40);
+   insertafter(40,50);
+   deletebeg();
+   deleteEnd();
+   display();
+   posdelete(2);
+   display();
+    return 0;
+}
